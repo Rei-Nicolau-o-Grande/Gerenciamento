@@ -1,0 +1,41 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: db_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    networks:
+      - gerenciamento-network
+    volumes:
+      - gerenciamento-volume:/var/lib/mysql
+
+  app:
+    image: gerenciamento-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_gerenciamento
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - gerenciamento-network
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - gerenciamento-volume:/app
+
+volumes:
+  gerenciamento-volume:
+
+networks:
+    gerenciamento-network:
+      driver: bridge
