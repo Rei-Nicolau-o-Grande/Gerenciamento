@@ -1,8 +1,10 @@
 package com.gerenciamento.controller.v1;
 
+import com.gerenciamento.dto.PaginationDto;
 import com.gerenciamento.dto.departamento.DepartamentoDto;
 import com.gerenciamento.service.DepartamentoService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +40,18 @@ public class DepartamentoController {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         this.departamentoService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<PaginationDto<DepartamentoDto>> findAllDepartamentos(@RequestParam(value = "nome", required = false) String nome,
+                                                              Pageable pageable) {
+        var departamentos = this.departamentoService.findAllDepartamentos(nome, pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(new PaginationDto<>(
+                departamentos.getContent(),
+                departamentos.getNumber(),
+                departamentos.getSize(),
+                departamentos.getTotalPages(),
+                departamentos.getTotalElements()
+        ));
     }
 }

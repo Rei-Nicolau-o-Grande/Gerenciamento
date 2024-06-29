@@ -8,6 +8,8 @@ import com.gerenciamento.model.Departamento;
 import com.gerenciamento.model.Usuario;
 import com.gerenciamento.repository.DepartamentoRepository;
 import com.gerenciamento.repository.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,5 +67,18 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFound("Usuário não encontrado"));
         usuarioRepository.delete(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<UsuarioResponse> findAllUsuarios(String nome, Pageable pageable) {
+
+        if (nome == null || nome.isEmpty())
+            return usuarioRepository.findAll(pageable)
+                    .map(usuario -> new UsuarioResponse(usuario.getId(), usuario.getNome(), usuario.getEmail(),
+                            new DepartamentoDto(usuario.getDepartamento().getId(), usuario.getDepartamento().getNome())));
+
+        return usuarioRepository.findByNomeContainingIgnoreCase(nome, pageable)
+                .map(usuario -> new UsuarioResponse(usuario.getId(), usuario.getNome(), usuario.getEmail(),
+                        new DepartamentoDto(usuario.getDepartamento().getId(), usuario.getDepartamento().getNome())));
     }
 }
