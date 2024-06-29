@@ -9,6 +9,7 @@ import com.gerenciamento.model.Usuario;
 import com.gerenciamento.repository.DepartamentoRepository;
 import com.gerenciamento.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UsuarioService {
@@ -25,6 +26,7 @@ public class UsuarioService {
         this.departamentoService = departamentoService;
     }
 
+    @Transactional
     public void create(UsuarioRequest usuarioRequest) {
         Departamento departamento = this.departamentoRepository
                                     .getReferenceById(usuarioRequest.departamentoId());
@@ -35,6 +37,22 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
+    @Transactional
+    public void update(Long id, UsuarioRequest usuarioRequest) {
+        Departamento departamento = this.departamentoRepository
+                                    .getReferenceById(usuarioRequest.departamentoId());
+
+        this.departamentoService.findById(usuarioRequest.departamentoId());
+
+        Usuario usuario = usuarioRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFound("Usuário não encontrado"));
+        usuario.setNome(usuarioRequest.nome());
+        usuario.setEmail(usuarioRequest.email());
+        usuario.setDepartamento(departamento);
+        usuarioRepository.save(usuario);
+    }
+
+    @Transactional(readOnly = true)
     public UsuarioResponse findById(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFound("Usuário não encontrado"));

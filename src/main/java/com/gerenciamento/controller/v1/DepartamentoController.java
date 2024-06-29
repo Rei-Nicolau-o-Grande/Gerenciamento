@@ -23,6 +23,12 @@ public class DepartamentoController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid DepartamentoDto departamentoDto) {
+        this.departamentoService.update(id, departamentoDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<DepartamentoDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.departamentoService.findById(id));

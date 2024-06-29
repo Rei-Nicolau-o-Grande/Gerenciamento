@@ -24,6 +24,12 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid UsuarioRequest dto) {
+        this.usuarioService.update(id, dto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.usuarioService.findById(id));

@@ -5,6 +5,7 @@ import com.gerenciamento.exception.base.EntityNotFound;
 import com.gerenciamento.model.Departamento;
 import com.gerenciamento.repository.DepartamentoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DepartamentoService {
@@ -15,11 +16,21 @@ public class DepartamentoService {
         this.departamentoRepository = departamentoRepository;
     }
 
+    @Transactional
     public void create(DepartamentoDto departamentoDto) {
         Departamento departamento = new Departamento(departamentoDto);
         this.departamentoRepository.save(departamento);
     }
 
+    @Transactional
+    public void update(Long id, DepartamentoDto departamentoDto) {
+        Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFound("Departamento não encontrado"));
+        departamento.setNome(departamentoDto.nome());
+        departamentoRepository.save(departamento);
+    }
+
+    @Transactional(readOnly = true)
     public DepartamentoDto findById(Long id) {
         Departamento departamento = departamentoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFound("Departamento não encontrado"));
