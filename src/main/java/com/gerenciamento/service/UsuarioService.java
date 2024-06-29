@@ -3,6 +3,7 @@ package com.gerenciamento.service;
 import com.gerenciamento.dto.departamento.DepartamentoDto;
 import com.gerenciamento.dto.usuario.UsuarioRequest;
 import com.gerenciamento.dto.usuario.UsuarioResponse;
+import com.gerenciamento.exception.base.EntityNotFound;
 import com.gerenciamento.model.Departamento;
 import com.gerenciamento.model.Usuario;
 import com.gerenciamento.repository.DepartamentoRepository;
@@ -36,7 +37,7 @@ public class UsuarioService {
 
     public UsuarioResponse findById(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
-                        .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                        .orElseThrow(() -> new EntityNotFound("Usuário não encontrado"));
         return new UsuarioResponse(usuario.getId(), usuario.getNome(), usuario.getEmail(),
                 new DepartamentoDto(usuario.getDepartamento().getId(), usuario.getDepartamento().getNome()));
     }
