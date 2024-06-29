@@ -33,4 +33,10 @@ public class DepartamentoController {
     public ResponseEntity<DepartamentoDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.departamentoService.findById(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        this.departamentoService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

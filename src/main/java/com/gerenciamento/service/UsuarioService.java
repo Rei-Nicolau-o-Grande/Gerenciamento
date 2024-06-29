@@ -59,4 +59,11 @@ public class UsuarioService {
         return new UsuarioResponse(usuario.getId(), usuario.getNome(), usuario.getEmail(),
                 new DepartamentoDto(usuario.getDepartamento().getId(), usuario.getDepartamento().getNome()));
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                        .orElseThrow(() -> new EntityNotFound("Usuário não encontrado"));
+        usuarioRepository.delete(usuario);
+    }
 }

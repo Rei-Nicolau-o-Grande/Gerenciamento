@@ -36,4 +36,11 @@ public class DepartamentoService {
                 .orElseThrow(() -> new EntityNotFound("Departamento não encontrado"));
         return new DepartamentoDto(departamento.getId(), departamento.getNome());
     }
+
+    @Transactional
+    public void delete(Long id) {
+        Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFound("Departamento não encontrado"));
+        departamentoRepository.delete(departamento);
+    }
 }
