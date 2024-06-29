@@ -18,4 +18,10 @@ public class DepartamentoService {
         Departamento departamento = new Departamento(departamentoDto);
         this.departamentoRepository.save(departamento);
     }
+
+    public DepartamentoDto findById(Long id) {
+        Departamento departamento = departamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Departamento não encontrado"));
+        return new DepartamentoDto(departamento.getId(), departamento.getNome());
+    }
 }
