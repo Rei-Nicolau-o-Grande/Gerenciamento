@@ -20,8 +20,8 @@ public class Usuario implements Serializable {
     @Column(nullable = false, length = 100)
     private String email;
 
-    @OneToOne
-    @JoinColumn
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private Departamento departamento;
 
     public Usuario(Long id, String nome, String email, Departamento departamento) {

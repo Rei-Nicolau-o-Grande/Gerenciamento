@@ -4,6 +4,7 @@ import com.gerenciamento.dto.departamento.DepartamentoDto;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,8 +18,8 @@ public class Departamento implements Serializable {
     @Column(nullable = false, length = 50)
     private String nome;
 
-    @OneToOne(mappedBy = "departamento")
-    private Usuario usuario;
+    @OneToMany(mappedBy = "departamento")
+    private List<Usuario> usuarios;
 
     public Departamento() {
     }
@@ -43,12 +44,12 @@ public class Departamento implements Serializable {
         this.nome = nome;
     }
 
-    public Usuario getUsuarios() {
-        return usuario;
+    public List<Usuario> getUsuarios() {
+        return usuarios;
     }
 
-    public void setUsuarios(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarios(List<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
 
     @Override
@@ -56,12 +57,12 @@ public class Departamento implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Departamento that = (Departamento) o;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(usuario, that.usuario);
+        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(usuarios, that.usuarios);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, usuario);
+        return Objects.hash(id, nome, usuarios);
     }
 
     @Override
