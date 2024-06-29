@@ -1,12 +1,14 @@
 package com.gerenciamento.model;
 
+import com.gerenciamento.dto.usuario.UsuarioRequest;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,12 @@ public class Usuario {
     }
 
     public Usuario() {
+    }
+
+    public Usuario(UsuarioRequest usuarioRequest, Departamento departamento) {
+        this.nome = usuarioRequest.nome();
+        this.email = usuarioRequest.email();
+        this.departamento = departamento;
     }
 
     public Long getId() {

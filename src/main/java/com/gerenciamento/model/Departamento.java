@@ -1,12 +1,14 @@
 package com.gerenciamento.model;
 
+import com.gerenciamento.dto.departamento.DepartamentoDto;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "departamentos")
-public class Departamento {
+public class Departamento implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +20,11 @@ public class Departamento {
     @OneToOne(mappedBy = "departamento")
     private Usuario usuario;
 
-    public Departamento(Long id, String nome, Usuario usuario) {
-        this.id = id;
-        this.nome = nome;
-        this.usuario = usuario;
+    public Departamento() {
     }
 
-    public Departamento() {
+    public Departamento(DepartamentoDto departamentoDto) {
+        this.nome = departamentoDto.nome();
     }
 
     public Long getId() {
@@ -69,7 +69,6 @@ public class Departamento {
         return "Departamento{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", usuario=" + usuario +
                 '}';
     }
 }
