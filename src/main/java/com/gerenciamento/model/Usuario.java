@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuarios {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,14 +22,14 @@ public class Usuarios {
     @JoinColumn
     private Departamento departamento;
 
-    public Usuarios(Long id, String nome, String email, Departamento departamento) {
+    public Usuario(Long id, String nome, String email, Departamento departamento) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.departamento = departamento;
     }
 
-    public Usuarios() {
+    public Usuario() {
     }
 
     public Long getId() {
@@ -68,8 +68,8 @@ public class Usuarios {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Usuarios usuarios = (Usuarios) o;
-        return Objects.equals(id, usuarios.id) && Objects.equals(nome, usuarios.nome) && Objects.equals(email, usuarios.email) && Objects.equals(departamento, usuarios.departamento);
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(id, usuario.id) && Objects.equals(nome, usuario.nome) && Objects.equals(email, usuario.email) && Objects.equals(departamento, usuario.departamento);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Usuarios {
 
     @Override
     public String toString() {
-        return "Usuarios{" +
+        return "Usuario{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +

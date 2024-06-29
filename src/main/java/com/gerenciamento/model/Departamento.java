@@ -16,12 +16,12 @@ public class Departamento {
     private String nome;
 
     @OneToOne(mappedBy = "departamento")
-    private Usuarios usuarios;
+    private Usuario usuario;
 
-    public Departamento(Long id, String nome, Usuarios usuarios) {
+    public Departamento(Long id, String nome, Usuario usuario) {
         this.id = id;
         this.nome = nome;
-        this.usuarios = usuarios;
+        this.usuario = usuario;
     }
 
     public Departamento() {
@@ -43,12 +43,12 @@ public class Departamento {
         this.nome = nome;
     }
 
-    public Usuarios getUsuarios() {
-        return usuarios;
+    public Usuario getUsuarios() {
+        return usuario;
     }
 
-    public void setUsuarios(Usuarios usuarios) {
-        this.usuarios = usuarios;
+    public void setUsuarios(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -56,12 +56,12 @@ public class Departamento {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Departamento that = (Departamento) o;
-        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(usuarios, that.usuarios);
+        return Objects.equals(id, that.id) && Objects.equals(nome, that.nome) && Objects.equals(usuario, that.usuario);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, usuarios);
+        return Objects.hash(id, nome, usuario);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Departamento {
         return "Departamento{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
-                ", usuarios=" + usuarios +
+                ", usuario=" + usuario +
                 '}';
     }
 }
