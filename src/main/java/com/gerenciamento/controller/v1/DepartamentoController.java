@@ -1,5 +1,6 @@
 package com.gerenciamento.controller.v1;
 
+import com.gerenciamento.controller.docSwagger.departamentos.*;
 import com.gerenciamento.dto.PaginationDto;
 import com.gerenciamento.dto.departamento.DepartamentoDto;
 import com.gerenciamento.service.DepartamentoService;
@@ -19,29 +20,34 @@ public class DepartamentoController {
         this.departamentoService = departamentoService;
     }
 
+    @DocCreateDepartamento
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid DepartamentoDto departamentoDto) {
         this.departamentoService.create(departamentoDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @DocUpdateDepartamento
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid DepartamentoDto departamentoDto) {
         this.departamentoService.update(id, departamentoDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
+    @DocFindByIdDepartamento
     @GetMapping("/{id}")
     public ResponseEntity<DepartamentoDto> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.departamentoService.findById(id));
     }
 
+    @DocDeleteDepartamento
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         this.departamentoService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @DocPaginationDepartamento
     @GetMapping
     public ResponseEntity<PaginationDto<DepartamentoDto>> findAllDepartamentos(@RequestParam(value = "nome", required = false) String nome,
                                                               Pageable pageable) {

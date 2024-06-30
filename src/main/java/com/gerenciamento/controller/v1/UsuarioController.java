@@ -1,5 +1,6 @@
 package com.gerenciamento.controller.v1;
 
+import com.gerenciamento.controller.docSwagger.usuarios.*;
 import com.gerenciamento.dto.PaginationDto;
 import com.gerenciamento.dto.usuario.UsuarioRequest;
 import com.gerenciamento.dto.usuario.UsuarioResponse;
@@ -20,29 +21,34 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
+    @DocCreateUser
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid UsuarioRequest dto) {
         this.usuarioService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @DocUpdateUser
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid UsuarioRequest dto) {
         this.usuarioService.update(id, dto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
+    @DocFindByIdUser
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.usuarioService.findById(id));
     }
 
+    @DocDeleteUser
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         this.usuarioService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @DocPaginationUser
     @GetMapping
     public ResponseEntity<PaginationDto<UsuarioResponse>> findAllPagination(@RequestParam(value = "nome" , required = false) String nome,
                                                             Pageable pageable) {
